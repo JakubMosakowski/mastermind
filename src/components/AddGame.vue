@@ -1,36 +1,36 @@
 <template>
   <div class="wrapper">
     <h3>Input game parameters:</h3>
-    <label for="size">Size of a game:</label>
-    <input id="size" v-model="size"/>
+    <CustomInput id="size" v-model="size" placeholder="Size of a game:"/>
+    <CustomInput id="colors" v-model="colors" placeholder="Number of colors:"/>
+    <CustomInput id="tries" v-model="tries" placeholder="Number of tries until loose:"/>
 
-    <label for="colors">Number of colors:</label>
-    <input id="colors" v-model="colors"/>
-
-    <label for="tries">Number of tries until loose:</label>
-    <input id="tries" v-model="tries"/>
-
-    <button id="create" @click="handleInput">Create game!</button>
+    <CustomButton text="Create game!" @clicked="handleClick"/>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
+import swal from 'sweetalert';
 import Router from '../router';
+import CustomInput from './CustomInput.vue';
+import CustomButton from './CustomButton.vue';
 
 const path = 'http://localhost:3000/game/new';
 
 export default {
   name: 'AddGame',
-  data() {
-    return {
-      size: '',
-      colors: '',
-      tries: '',
-    };
+  components: {
+    CustomButton,
+    CustomInput,
   },
   methods: {
-    handleInput() {
+    handleClick() {
+      // Update mapOfCorrectness przy zmianie w positiveIntegerFieldError.
+      // If all inputs are true git
+      console.log(this.size);
+      console.log(this.colors);
+      console.log(this.tries);
       axios.post(path,
         {
           size: this.size,
@@ -41,25 +41,33 @@ export default {
           console.log(response);
           Router.replace('Game');
         })
-        .catch((error) => {
-          console.log(`Error: ${error}`);
+        .catch(() => {
+          swal('Something went wrong', 'Could not connect to a server');
         });
-      // TODO below
-      // Go to site with game.
-      // Create game site
-      // show id to user
-      // show stats for game (how many times tried, how many left, past tries with scoring,
-      // save stats to local storage
-      // Don't let user play more if game is finished
-      // Finished = correct or too many tries.
-      // field for enter another try:
-      // (by choosing color[colors should be very different eg. rgba/colors)
+      // TODO Field validation (size, colors numbers > 0, tries number>0 or empty) on button click
+      // TODO Go to site with game.
+      // TODO Create game site
+      // TODO show id to user
+      // TODO show stats for game (how many times tried, how many left, past tries with scoring,
+      // TODO save stats to local storage
+      // TODO Don't let user play more if game is finished
+      // TODO Finished = correct or too many tries.
+      // TODO field for enter another try:
+      // TODO (by choosing color[colors should be very different eg. rgba/colors)
     },
+  },
+  data() {
+    return {
+      size: '',
+      colors: '',
+      tries: '',
+    };
   },
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+
   .wrapper {
     display: flex;
     flex-direction: column;
@@ -68,17 +76,6 @@ export default {
     margin: 0 auto;
     padding: 30px;
     width: 350px;
-  }
-
-  input {
-    height: 30px;
-    margin: 20px 0 20px 0;
-    border: 0;
-    width: 100%;
-    border-bottom: 1px solid black;
-  }
-
-  button {
-
+    flex: 1 0 auto;
   }
 </style>
