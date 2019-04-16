@@ -1,13 +1,13 @@
 <template>
-<div v-visible="isVisible" id="PositiveIntegerFieldError">
-  <p>You must enter a positive integer number</p>
+<div v-visible="isVisible" id="FieldError">
+  <p>{{errorMessage}}</p>
 </div>
 </template>
 
 <script>
 export default {
-  name: 'PositiveIntegerFieldError',
-  props: ['fieldValue'],
+  name: 'FieldError',
+  props: ['fieldValue', 'errorMessage'],
   watch: {
     fieldValue() {
       this.validateField();

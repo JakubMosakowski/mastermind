@@ -1,9 +1,12 @@
 <template>
   <div class="wrapper">
     <h3>Input game parameters:</h3>
-    <CustomInput id="size" v-model="size" placeholder="Size of a game:"/>
-    <CustomInput id="colors" v-model="colors" placeholder="Number of colors:"/>
-    <CustomInput id="tries" v-model="tries" placeholder="Number of tries until loose:"/>
+    <CustomInput id="size" v-model="size" placeholder="Size of a game:"
+                 :error-message="errorMessage"/>
+    <CustomInput id="colors" v-model="colors" placeholder="Number of colors:"
+                 :error-message="errorMessage"/>
+    <CustomInput id="tries" v-model="tries" placeholder="Number of tries until loose:"
+                 :error-message="errorMessage"/>
 
     <CustomButton text="Create game!" @clicked="handleClick"/>
   </div>
@@ -17,7 +20,6 @@ import CustomInput from './CustomInput.vue';
 import CustomButton from './CustomButton.vue';
 
 const path = 'http://localhost:3000/game/new';
-
 export default {
   name: 'AddGame',
   components: {
@@ -26,11 +28,12 @@ export default {
   },
   methods: {
     handleClick() {
-      // Update mapOfCorrectness przy zmianie w positiveIntegerFieldError.
-      // If all inputs are true git
-      console.log(this.size);
-      console.log(this.colors);
-      console.log(this.tries);
+      // TODO przy kliku bierz z inputów dane.
+      // rzekazuj do widoku  errora message.
+      // Sprawdź czy są poprawne. (size, colors numbers > 0, tries number>0 or empty)
+      // Jeżeli tak to idziemy dalej,
+      // jeżeli nie to przekazujemy info o errorze do tych złych
+      // i info o chowaniu errora przy dobrych
       axios.post(path,
         {
           size: this.size,
@@ -44,7 +47,6 @@ export default {
         .catch(() => {
           swal('Something went wrong', 'Could not connect to a server');
         });
-      // TODO Field validation (size, colors numbers > 0, tries number>0 or empty) on button click
       // TODO Go to site with game.
       // TODO Create game site
       // TODO show id to user
@@ -61,6 +63,7 @@ export default {
       size: '',
       colors: '',
       tries: '',
+      errorMessage: 'You must enter a positive integer number',
     };
   },
 };

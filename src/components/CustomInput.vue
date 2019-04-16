@@ -1,15 +1,15 @@
 <template>
   <div id="customInput">
-    <PositiveIntegerFieldError :field-value="value"/>
+    <FieldError :field-value="value" :error-message="errorMessage"/>
     <label>
       <input :value="value" v-bind:placeholder="placeholder"
-             v-on:input="$emit('input', $event.target.value)"/>
+             @input="$emit('input', $event.target.value)"/>
     </label>
   </div>
 </template>
 
 <script>
-import PositiveIntegerFieldError from './PositiveIntegerFieldError.vue';
+import FieldError from './FieldError.vue';
 
 export default {
   name: 'CustomInput',
@@ -20,9 +20,12 @@ export default {
     placeholder: {
       type: String,
     },
+    errorMessage: {
+      type: String,
+    },
   },
   components: {
-    PositiveIntegerFieldError,
+    FieldError,
   },
 };
 </script>
