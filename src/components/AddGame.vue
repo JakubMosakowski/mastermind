@@ -1,12 +1,9 @@
 <template>
   <div class="wrapper">
     <h3>Input game parameters:</h3>
-    <CustomInput id="size" v-model="size" placeholder="Size of a game:"
-                 :error-message="errorMessage"/>
-    <CustomInput id="colors" v-model="colors" placeholder="Number of colors:"
-                 :error-message="errorMessage"/>
-    <CustomInput id="tries" v-model="tries" placeholder="Number of tries until loose:"
-                 :error-message="errorMessage"/>
+    <PositiveIntegerInput v-model="size" text="Size of a game:"/>
+    <PositiveIntegerInput v-model="colors" text="Number of colors:"/>
+    <PositiveIntegerInput v-model="tries" text="Number of tries until loose:"/>
 
     <CustomButton text="Create game!" @clicked="handleClick"/>
   </div>
@@ -16,7 +13,7 @@
 import axios from 'axios';
 import swal from 'sweetalert';
 import Router from '../router';
-import CustomInput from './CustomInput.vue';
+import PositiveIntegerInput from './PositiveIntegerInput.vue';
 import CustomButton from './CustomButton.vue';
 
 const path = 'http://localhost:3000/game/new';
@@ -24,10 +21,13 @@ export default {
   name: 'AddGame',
   components: {
     CustomButton,
-    CustomInput,
+    PositiveIntegerInput,
   },
   methods: {
     handleClick() {
+      console.log(this.size);
+      console.log(this.colors);
+      console.log(this.tries);
       // TODO przy kliku bierz z inputów dane.
       // rzekazuj do widoku  errora message.
       // Sprawdź czy są poprawne. (size, colors numbers > 0, tries number>0 or empty)
@@ -60,9 +60,9 @@ export default {
   },
   data() {
     return {
-      size: '',
-      colors: '',
-      tries: '',
+      size: 0,
+      colors: 0,
+      tries: 0,
       errorMessage: 'You must enter a positive integer number',
     };
   },
@@ -76,9 +76,21 @@ export default {
     flex-direction: column;
     align-items: center;
     position: center;
+    text-align: center;
     margin: 0 auto;
     padding: 30px;
     width: 350px;
     flex: 1 0 auto;
+  }
+
+  #customButton{
+    margin: 40px auto;
+  }
+
+  .positiveIntegerInput{
+    margin-bottom: 20px;
+  }
+  h3{
+    margin-bottom: 20px;
   }
 </style>

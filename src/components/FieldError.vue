@@ -1,5 +1,5 @@
 <template>
-<div v-visible="isVisible" id="FieldError">
+<div v-visible="isErrorVisible" id="FieldError">
   <p>{{errorMessage}}</p>
 </div>
 </template>
@@ -7,25 +7,11 @@
 <script>
 export default {
   name: 'FieldError',
-  props: ['fieldValue', 'errorMessage'],
-  watch: {
-    fieldValue() {
-      this.validateField();
+  props: [{
+    isErrorVisible: {
+      type: Boolean,
     },
-  },
-  data() {
-    return {
-      isVisible: false,
-    };
-  },
-  methods: {
-    validateField() {
-      const numericSize = parseInt(this.fieldValue, 10);
-      this.isVisible = !(!Number.isNaN(numericSize)
-        && Number.isInteger(numericSize)
-        && numericSize > 0);
-    },
-  },
+  }, 'errorMessage'],
 };
 </script>
 

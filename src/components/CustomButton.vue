@@ -1,5 +1,5 @@
 <template>
-  <a id="customButton" class="action-button shadow animate blue" v-on:click="$emit('clicked')">
+  <a id="customButton" class="action-button shadow animate blue" @click="$emit('clicked')">
     {{text}}
   </a>
 </template>
