@@ -1,17 +1,18 @@
 <template>
-  <div class="positiveIntegerInput">
+  <div class="integerInput">
       <p>{{text}}</p>
     <div class="buttonsWrapper">
-      <button id="minusBtn" class="btn btn-primary" @click="minusClicked">-</button>
+      <button v-visible="value > 0" id="minusBtn"
+              class="btn btn-primary" @click="minusClicked">-</button>
       <p id="value">{{value}}</p>
-      <button class="btn btn-success" @click="plusClicked">+</button>
+      <button  class="btn btn-success" @click="plusClicked">+</button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'PositiveIntegerInput',
+  name: 'IntegerInput',
   props: {
     value: {
       type: Number,
@@ -32,7 +33,7 @@ export default {
 </script>
 
 <style scoped>
-  .positiveIntegerInput{
+  .integerInput{
     display: flex;
     flex-direction: column;
     align-items: center;

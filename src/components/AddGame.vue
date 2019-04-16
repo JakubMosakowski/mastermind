@@ -1,9 +1,9 @@
 <template>
   <div class="wrapper">
     <h3>Input game parameters:</h3>
-    <PositiveIntegerInput v-model="size" text="Size of a game:"/>
-    <PositiveIntegerInput v-model="colors" text="Number of colors:"/>
-    <PositiveIntegerInput v-model="tries" text="Number of tries until loose:"/>
+    <IntegerInput v-model="size" text="Size of a game:"/>
+    <IntegerInput v-model="colors" text="Number of colors:"/>
+    <IntegerInput v-model="tries" text="Number of tries until loose:"/>
 
     <CustomButton text="Create game!" @clicked="handleClick"/>
   </div>
@@ -13,7 +13,7 @@
 import axios from 'axios';
 import swal from 'sweetalert';
 import Router from '../router';
-import PositiveIntegerInput from './PositiveIntegerInput.vue';
+import IntegerInput from './IntegerInput.vue';
 import CustomButton from './CustomButton.vue';
 
 const path = 'http://localhost:3000/game/new';
@@ -21,7 +21,7 @@ export default {
   name: 'AddGame',
   components: {
     CustomButton,
-    PositiveIntegerInput,
+    IntegerInput,
   },
   methods: {
     handleClick() {
@@ -29,9 +29,9 @@ export default {
       console.log(this.colors);
       console.log(this.tries);
       // TODO przy kliku bierz z inputów dane.
-      // rzekazuj do widoku  errora message.
       // Sprawdź czy są poprawne. (size, colors numbers > 0, tries number>0 or empty)
       // Jeżeli tak to idziemy dalej,
+      //
       // jeżeli nie to przekazujemy info o errorze do tych złych
       // i info o chowaniu errora przy dobrych
       axios.post(path,
@@ -87,9 +87,10 @@ export default {
     margin: 40px auto;
   }
 
-  .positiveIntegerInput{
+  .integerInput{
     margin-bottom: 20px;
   }
+
   h3{
     margin-bottom: 20px;
   }
