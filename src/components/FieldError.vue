@@ -1,5 +1,5 @@
 <template>
-<div v-visible="isErrorVisible" id="FieldError">
+<div v-visible="isErrorVisible" id="fieldError">
   <p>{{errorMessage}}</p>
 </div>
 </template>
@@ -7,11 +7,15 @@
 <script>
 export default {
   name: 'FieldError',
-  props: [{
+  props: {
     isErrorVisible: {
       type: Boolean,
     },
-  }, 'errorMessage'],
+    errorMessage: {
+      type: String,
+      default: 'Field cannot be zero!',
+    },
+  },
 };
 </script>
 

@@ -1,6 +1,7 @@
 <template>
   <div class="integerInput">
-      <p>{{text}}</p>
+    <p id="title">{{text}}</p>
+    <FieldError :is-error-visible="isErrorVisible"/>
     <div class="buttonsWrapper">
       <button v-visible="value > 0" id="minusBtn"
               class="btn btn-primary" @click="minusClicked">-</button>
@@ -11,8 +12,11 @@
 </template>
 
 <script>
+import FieldError from './FieldError.vue';
+
 export default {
   name: 'IntegerInput',
+  components: { FieldError },
   props: {
     value: {
       type: Number,
@@ -23,6 +27,10 @@ export default {
     basicValue: {
       type: String,
       default: '0',
+    },
+    isErrorVisible: {
+      type: Boolean,
+      default: false,
     },
   },
   methods: {
@@ -64,5 +72,8 @@ export default {
   button{
     width: 35px;
     height: 35px;
+  }
+  #title{
+    margin: 0;
   }
 </style>
