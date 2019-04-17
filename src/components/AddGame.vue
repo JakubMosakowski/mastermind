@@ -1,12 +1,17 @@
 <template>
   <div class="wrapper">
-    <h3>Input game parameters:</h3>
+    <div v-if="!isLoading" id="inputs">
+      <h3>Input game parameters:</h3>
 
-    <IntegerInput v-model="size" text="Size of a game:" :is-error-visible="errors[0].isError"/>
-    <IntegerInput v-model="colors" text="Number of colors:" :is-error-visible="errors[1].isError"/>
-    <IntegerInput v-model="tries" text="Number of tries until loose:" basicValue="INFINITE"/>
+      <IntegerInput v-model="size" text="Size of a game:"
+                    :is-error-visible="errors[0].isError"/>
+      <IntegerInput v-model="colors" text="Number of colors:"
+                    :is-error-visible="errors[1].isError"/>
+      <IntegerInput v-model="tries" text="Number of tries until loose:" basicValue="INFINITE"/>
 
-    <CustomButton text="Create game!" @clicked="handleClick"/>
+      <CustomButton text="Create game!" @clicked="handleClick"/>
+    </div>
+    <b-spinner v-if="isLoading" variant="primary" label="Spinning" id="spinner"></b-spinner>
   </div>
 </template>
 
@@ -17,7 +22,7 @@ import Router from '../router';
 import IntegerInput from './IntegerInput.vue';
 import CustomButton from './CustomButton.vue';
 
-const path = 'http://localhost:3000/game/new';
+const path = 'https://mastermind-server-tsw.herokuapp.com/game/new';
 
 export default {
   name: 'AddGame',
@@ -40,15 +45,15 @@ export default {
       if (this.thereIsAnyError()) {
         return;
       }
+      if (this.tries === 0) this.tries = null;
 
-      axios.post(path,
-        {
-          size: this.size,
-          colors: this.colors,
-          steps: this.tries,
-        })
+      const post = this.getPost();
+
+      this.isLoading = true;
+      axios.post(path, post)
         .then((response) => {
           console.log(response);
+          this.isLoading = false;
           Router.replace('Game');
         })
         .catch(() => {
@@ -63,14 +68,27 @@ export default {
     // TODO Finished = correct or too many tries.
     // TODO field for enter another try:
     // TODO (by choosing color[colors should be very different eg. rgba/colors)
-    // TODO add loading spinner
-    // TODO deploy on netlify (and deploy server too!)
-    // },
+    // TODO deploy on netlify
     clearErrors() {
       this.errors = this.errors.map(key => [key, false]);
     },
     thereIsAnyError() {
       return this.errors.some(item => item.isError === true);
+    },
+    getPost() {
+      if (this.tries === 0) {
+        return {
+          size: this.size,
+          colors:
+            this.colors,
+          steps:
+            this.tries,
+        };
+      }
+      return {
+        size: this.size,
+        colors: this.colors,
+      };
     },
   },
   data() {
@@ -78,6 +96,7 @@ export default {
       size: 0,
       colors: 0,
       tries: 0,
+      isLoading: false,
       SIZE_ERROR: 'size_error',
       COLORS_ERROR: 'colors_error',
       errorMessage: 'You must enter a positive integer number',
@@ -98,7 +117,7 @@ export default {
 
 <style lang="scss" scoped>
 
-  .wrapper {
+  #inputs {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -116,6 +135,14 @@ export default {
 
   .integerInput {
     margin-bottom: 20px;
+  }
+
+  #spinner {
+    position: fixed;
+    top: calc(50% - 45px);
+    left: calc(50% - 45px);
+    width: 90px;
+    height: 90px;
   }
 
   h3 {
