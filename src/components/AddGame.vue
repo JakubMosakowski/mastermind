@@ -3,7 +3,7 @@
     <h3>Input game parameters:</h3>
     <IntegerInput v-model="size" text="Size of a game:"/>
     <IntegerInput v-model="colors" text="Number of colors:"/>
-    <IntegerInput v-model="tries" text="Number of tries until loose:"/>
+    <IntegerInput v-model="tries" text="Number of tries until loose:" basicValue="INFINITE"/>
 
     <CustomButton text="Create game!" @clicked="handleClick"/>
   </div>
@@ -28,10 +28,10 @@ export default {
       console.log(this.size);
       console.log(this.colors);
       console.log(this.tries);
+
       // TODO przy kliku bierz z inputów dane.
       // Sprawdź czy są poprawne. (size, colors numbers > 0, tries number>0 or empty)
       // Jeżeli tak to idziemy dalej,
-      //
       // jeżeli nie to przekazujemy info o errorze do tych złych
       // i info o chowaniu errora przy dobrych
       axios.post(path,
@@ -47,7 +47,6 @@ export default {
         .catch(() => {
           swal('Something went wrong', 'Could not connect to a server');
         });
-      // TODO Go to site with game.
       // TODO Create game site
       // TODO show id to user
       // TODO show stats for game (how many times tried, how many left, past tries with scoring,
@@ -56,6 +55,8 @@ export default {
       // TODO Finished = correct or too many tries.
       // TODO field for enter another try:
       // TODO (by choosing color[colors should be very different eg. rgba/colors)
+      // TODO add loading spinner
+      // TODO deploy on netlify (and deploy server too!)
     },
   },
   data() {

@@ -4,7 +4,7 @@
     <div class="buttonsWrapper">
       <button v-visible="value > 0" id="minusBtn"
               class="btn btn-primary" @click="minusClicked">-</button>
-      <p id="value">{{value}}</p>
+      <p id="value">{{getValue()}}</p>
       <button  class="btn btn-success" @click="plusClicked">+</button>
     </div>
   </div>
@@ -20,6 +20,10 @@ export default {
     text: {
       type: String,
     },
+    basicValue: {
+      type: String,
+      default: '0',
+    },
   },
   methods: {
     plusClicked() {
@@ -27,6 +31,12 @@ export default {
     },
     minusClicked() {
       this.$emit('input', this.value - 1);
+    },
+    getValue() {
+      if (this.value === 0) {
+        return this.basicValue;
+      }
+      return this.value;
     },
   },
 };
