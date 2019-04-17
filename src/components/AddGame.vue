@@ -79,15 +79,13 @@ export default {
       if (this.tries === 0) {
         return {
           size: this.size,
-          colors:
-            this.colors,
-          steps:
-            this.tries,
+          colors: this.colors,
         };
       }
       return {
         size: this.size,
         colors: this.colors,
+        steps: this.tries,
       };
     },
   },
