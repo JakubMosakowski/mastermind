@@ -123,7 +123,7 @@ export default {
     text-align: center;
     margin: 0 auto;
     padding: 30px;
-    width: 350px;
+    width: 450px;
     flex: 1 0 auto;
   }
 
