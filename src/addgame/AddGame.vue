@@ -121,6 +121,10 @@ export default {
     height: 90px;
   }
 
+  .integerInputWrapper{
+    margin-bottom: 10px;
+  }
+
   h3 {
     margin-bottom: 20px;
   }

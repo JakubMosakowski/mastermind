@@ -4,10 +4,10 @@
     <FieldError :is-error-visible="isErrorVisible"/>
     <div class="buttonsWrapper">
       <button v-visible="value > 0" id="minusBtn"
-              class="btn btn-primary" @click="minusClicked">-
+              class="btn btn-custom" @click="minusClicked">-
       </button>
       <p id="value">{{getValue()}}</p>
-      <button class="btn btn-primary" @click="plusClicked">+</button>
+      <button class="btn btn-custom" @click="plusClicked">+</button>
     </div>
   </div>
 </template>
