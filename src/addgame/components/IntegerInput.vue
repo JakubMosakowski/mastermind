@@ -1,8 +1,8 @@
 <template>
-  <div class="integerInputWrapper">
+  <div id="integerInputWrapper">
     <p id="title">{{text}}</p>
     <FieldError :is-error-visible="isErrorVisible"/>
-    <div class="buttonsWrapper">
+    <div id="buttonsWrapper">
       <button v-visible="value > 0" id="minusBtn"
               class="btn btn-custom" @click="minusClicked">-
       </button>
@@ -52,13 +52,13 @@ export default {
 </script>
 
 <style scoped>
-  .integerInputWrapper {
+  #integerInputWrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
 
-  .buttonsWrapper {
+  #buttonsWrapper {
     display: flex;
     flex-direction: row;
     align-items: center;

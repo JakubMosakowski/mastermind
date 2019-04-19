@@ -1,8 +1,11 @@
 <template>
-  <div class="addGameWrapper">
+  <div id="addGameWrapper">
     <div v-if="!isLoading" id="inputsWrapper">
       <h2>Input game parameters:</h2>
 
+
+      <TextInput v-model="name" label="Enter name for game"
+                 placeholder="For example: Bob vs Uncle"/>
       <IntegerInput v-model="size" text="Size of a game:"
                     :is-error-visible="errors[0].isError"/>
       <IntegerInput v-model="colors" text="Number of colors:"
@@ -21,12 +24,14 @@ import swal from 'sweetalert';
 import Router from '../router';
 import IntegerInput from './components/IntegerInput.vue';
 import CustomButton from './components/CustomButton.vue';
+import TextInput from './components/TextInput.vue';
 
 const path = 'https://mastermind-server-tsw.herokuapp.com/game/new';
-
+// TODO style that TextInput
 export default {
   name: 'AddGame',
   components: {
+    TextInput,
     CustomButton,
     IntegerInput,
   },
@@ -52,6 +57,7 @@ export default {
       axios.post(path, post)
         .then((response) => {
           response.data.solved = false;
+          response.data.name = this.name;
           localStorage.setItem(response.data.game, JSON.stringify(response.data));
           localStorage.currentGameId = response.data.game;
 
@@ -91,6 +97,7 @@ export default {
       size: 0,
       colors: 0,
       tries: 0,
+      name: '',
       isLoading: false,
       SIZE_ERROR: 'size_error',
       COLORS_ERROR: 'colors_error',
@@ -124,7 +131,7 @@ export default {
     height: 90px;
   }
 
-  .integerInputWrapper{
+  #integerInputWrapper{
     margin-bottom: 10px;
   }
 

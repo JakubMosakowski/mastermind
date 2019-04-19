@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isGameChosen" class="gameWrapper">
+  <div v-if="isGameChosen" id="gameWrapper">
     <Title :game-id="game.game"/>
   </div>
 </template>
@@ -49,7 +49,7 @@ export default {
 </script>
 
 <style>
-  .gameWrapper {
+  #gameWrapper {
 
   }
 </style>
