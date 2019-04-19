@@ -13,7 +13,12 @@
   }
 
   body {
-    margin: 0;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    padding: 30px;
     font-family: 'Montserrat', sans-serif;
     background-image: url("assets/background.jpg");
   }

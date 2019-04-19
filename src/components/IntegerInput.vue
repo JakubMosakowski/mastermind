@@ -6,7 +6,7 @@
       <button v-visible="value > 0" id="minusBtn"
               class="btn btn-primary" @click="minusClicked">-</button>
       <p id="value">{{getValue()}}</p>
-      <button  class="btn btn-success" @click="plusClicked">+</button>
+      <button  class="btn btn-primary" @click="plusClicked">+</button>
     </div>
   </div>
 </template>
@@ -64,6 +64,8 @@ export default {
   }
 
   #value{
+    width: 120px;
+    text-align: center;
     padding-left:  20px ;
     padding-right:  20px ;
     margin: auto;

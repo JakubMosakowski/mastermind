@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div v-if="!isLoading" id="inputs">
-      <h3>Input game parameters:</h3>
+      <h2>Input game parameters:</h2>
 
       <IntegerInput v-model="size" text="Size of a game:"
                     :is-error-visible="errors[0].isError"/>
@@ -52,23 +52,17 @@ export default {
       this.isLoading = true;
       axios.post(path, post)
         .then((response) => {
-          console.log(response);
           this.isLoading = false;
-          Router.replace('Game');
+
+          Router.push({
+            name: 'game',
+            params: { game: response.data },
+          });
         })
         .catch(() => {
           swal('Something went wrong', 'Could not connect to a server');
         });
     },
-    // TODO Create game site
-    // TODO show id to user
-    // TODO show stats for game (how many times tried, how many left, past tries with scoring,
-    // TODO save stats to local storage
-    // TODO Don't let user play more if game is finished
-    // TODO Finished = correct or too many tries.
-    // TODO field for enter another try:
-    // TODO (by choosing color[colors should be very different eg. rgba/colors)
-    // TODO deploy on netlify
     clearErrors() {
       this.errors = this.errors.map(key => [key, false]);
     },
@@ -76,7 +70,7 @@ export default {
       return this.errors.some(item => item.isError === true);
     },
     getPost() {
-      if (this.tries === 0) {
+      if (this.tries === null) {
         return {
           size: this.size,
           colors: this.colors,
@@ -114,21 +108,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-  #inputs {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: center;
-    text-align: center;
-    margin: 0 auto;
-    padding: 30px;
-    width: 450px;
-    flex: 1 0 auto;
-  }
-
   #customButton {
-    margin: 40px auto;
+    width: 100%;
   }
 
   .integerInput {
