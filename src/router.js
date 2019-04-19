@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from './views/Home.vue';
-import Game from './views/Game.vue';
+import AddGame from './addgame/AddGame.vue';
+import Game from './game/Game.vue';
 
 Vue.use(Router);
 
@@ -10,7 +10,7 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home,
+      component: AddGame,
     },
     {
       path: '/game',

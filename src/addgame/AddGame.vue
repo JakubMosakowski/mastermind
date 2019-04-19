@@ -19,8 +19,8 @@
 import axios from 'axios';
 import swal from 'sweetalert';
 import Router from '../router';
-import IntegerInput from './IntegerInput.vue';
-import CustomButton from './CustomButton.vue';
+import IntegerInput from './components/IntegerInput.vue';
+import CustomButton from './components/CustomButton.vue';
 
 const path = 'https://mastermind-server-tsw.herokuapp.com/game/new';
 
