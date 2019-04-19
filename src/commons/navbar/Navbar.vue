@@ -1,13 +1,13 @@
 <template>
   <ul id="navbarWrapper">
     <li>
-      <router-link :to="{ name: 'home' }">Mastermind</router-link>
+      <router-link :to="{ name: 'home' }">MASTERMIND</router-link>
     </li>
     <li>
-      <router-link :to="{ name: 'game' }">Current game</router-link>
+      <router-link :to="{ name: 'game' }">CURRENT GAME</router-link>
     </li>
     <li>
-      <router-link :to="{ name: 'search' }">Search game</router-link>
+      <router-link :to="{ name: 'search' }">SEARCH GAME</router-link>
     </li>
   </ul>
 </template>
@@ -28,7 +28,7 @@ export default {
   }
 
   li {
-    padding: 20px;
+    padding: 15px;
   }
 
   ul {
