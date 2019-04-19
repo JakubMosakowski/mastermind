@@ -1,5 +1,5 @@
 <template>
-  <button id="customButton" class="btn btn-success" @click="$emit('clicked')"> {{text}}</button>
+  <button id="customButton" class="btn btn-primary" @click="$emit('clicked')"> {{text}}</button>
 </template>
 
 <script>

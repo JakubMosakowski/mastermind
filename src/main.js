@@ -3,6 +3,7 @@ import VueVisible from 'vue-visible';
 import BootstrapVue from 'bootstrap-vue';
 import App from './App.vue';
 import router from './router';
+import '@/assets/global.scss';
 
 Vue.use(BootstrapVue);
 Vue.use(VueVisible);

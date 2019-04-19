@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import AddGame from './addgame/AddGame.vue';
 import Game from './game/Game.vue';
+import Search from './search/Search.vue';
 
 Vue.use(Router);
 
@@ -17,6 +18,11 @@ export default new Router({
       name: 'game',
       component: Game,
       props: true,
+    },
+    {
+      path: '/search',
+      name: 'search',
+      component: Search,
     },
   ],
 });

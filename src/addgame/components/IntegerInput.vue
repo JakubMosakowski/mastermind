@@ -1,12 +1,13 @@
 <template>
-  <div class="integerInput">
+  <div class="integerInputWrapper">
     <p id="title">{{text}}</p>
     <FieldError :is-error-visible="isErrorVisible"/>
     <div class="buttonsWrapper">
       <button v-visible="value > 0" id="minusBtn"
-              class="btn btn-primary" @click="minusClicked">-</button>
+              class="btn btn-custom" @click="minusClicked">-
+      </button>
       <p id="value">{{getValue()}}</p>
-      <button  class="btn btn-primary" @click="plusClicked">+</button>
+      <button class="btn btn-custom" @click="plusClicked">+</button>
     </div>
   </div>
 </template>
@@ -51,31 +52,32 @@ export default {
 </script>
 
 <style scoped>
-  .integerInput{
+  .integerInputWrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
 
-  .buttonsWrapper{
+  .buttonsWrapper {
     display: flex;
     flex-direction: row;
     align-items: center;
   }
 
-  #value{
+  #value {
     width: 120px;
     text-align: center;
-    padding-left:  20px ;
-    padding-right:  20px ;
+    padding-left: 20px;
+    padding-right: 20px;
     margin: auto;
   }
 
-  button{
+  button {
     width: 35px;
     height: 35px;
   }
-  #title{
+
+  #title {
     margin: 0;
   }
 </style>
