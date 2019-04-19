@@ -45,22 +45,25 @@ export default {
       if (this.thereIsAnyError()) {
         return;
       }
-      if (this.tries === 0) this.tries = null;
 
       const post = this.getPost();
-
       this.isLoading = true;
+
       axios.post(path, post)
         .then((response) => {
-          this.isLoading = false;
+          response.data.solved = false;
+          localStorage.setItem(response.data.game, JSON.stringify(response.data));
+          localStorage.currentGameId = response.data.game;
 
+          this.isLoading = false;
           Router.push({
             name: 'game',
-            params: { game: response.data },
           });
         })
-        .catch(() => {
+        .catch((e) => {
           swal('Something went wrong', 'Could not connect to a server');
+          console.log(e);
+          this.isLoading = false;
         });
     },
     clearErrors() {
@@ -70,7 +73,7 @@ export default {
       return this.errors.some(item => item.isError === true);
     },
     getPost() {
-      if (this.tries === null) {
+      if (this.tries === 0) {
         return {
           size: this.size,
           colors: this.colors,
