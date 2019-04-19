@@ -1,6 +1,6 @@
 <template>
-  <div class="wrapper">
-    <div v-if="!isLoading" id="inputs">
+  <div class="addGameWrapper">
+    <div v-if="!isLoading" id="inputsWrapper">
       <h2>Input game parameters:</h2>
 
       <IntegerInput v-model="size" text="Size of a game:"
@@ -110,10 +110,7 @@ export default {
 <style lang="scss" scoped>
   #customButton {
     width: 100%;
-  }
-
-  .integerInput {
-    margin-bottom: 20px;
+    margin-top: 20px;
   }
 
   #spinner {

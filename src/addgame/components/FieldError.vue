@@ -1,7 +1,5 @@
 <template>
-<div v-visible="isErrorVisible" id="fieldError">
-  <p>{{errorMessage}}</p>
-</div>
+  <p v-visible="isErrorVisible" id="fieldError">{{errorMessage}}</p>
 </template>
 
 <script>
@@ -20,7 +18,7 @@ export default {
 </script>
 
 <style scoped>
-  p{
+  p {
     color: red;
     font-size: 13px;
     text-align: center;

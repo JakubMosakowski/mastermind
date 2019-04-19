@@ -1,5 +1,6 @@
 <template>
   <div class="app">
+    <Navbar/>
     <router-view/>
   </div>
 </template>
@@ -24,5 +25,9 @@
   }
 </style>
 <script>
+import Navbar from './commons/navbar/Navbar.vue';
 
+export default {
+  components: { Navbar },
+};
 </script>
