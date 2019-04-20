@@ -6,7 +6,6 @@ export function getAllGamesFromStorage() {
 
   while (i >= 0) {
     const key = keys[i];
-    console.log(`KEY: ${key}`);
     if (key) {
       if (key.length === 36) {
         const item = JSON.parse(localStorage.getItem(key));

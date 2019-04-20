@@ -1,15 +1,11 @@
 <template>
   <div id="searchWrapper">
-    <div v-if="!isLoading" id="contentWrapper">
+    <div v-if="!isLoading" id="searchContentWrapper">
       <TextInput v-model="gameId" label="Enter game id:"
                  placeholder="For example: ba84d490-6358-11e9-83a4-41cba1f52596"/>
       <CustomButton text="SEARCH!" @clicked="handleSearchClick"/>
 
-      <ul id="example-1">
-        <li v-for="item in savedGames" :key="item.game">
-          <GameItem :game="item" @clicked="handleItemClicked"/>
-        </li>
-      </ul>
+      <GameList :games="savedGames" @clicked="handleItemClicked"/>
     </div>
     <CustomSpinner :isVisible="isLoading"/>
   </div>
@@ -22,7 +18,7 @@ import TextInput from '../commons/components/TextInput.vue';
 import CustomButton from '../commons/components/CustomButton.vue';
 import CustomSpinner from '../commons/components/CustomSpinner.vue';
 import * as utils from '../commons/utils/extensions';
-import GameItem from './components/GameItem.vue';
+import GameList from './components/GameList.vue';
 
 const path = 'https://mastermind-server-tsw.herokuapp.com/game/status';
 const unknown = 'UNKNOWN';
@@ -30,7 +26,7 @@ const unknown = 'UNKNOWN';
 export default {
   name: 'Search',
   components: {
-    GameItem,
+    GameList,
     CustomSpinner,
     CustomButton,
     TextInput,
@@ -120,5 +116,10 @@ export default {
   #customButton {
     width: 100%;
     margin-top: 20px;
+    margin-bottom: 40px;
+  }
+
+  #searchContentWrapper{
+    width: 100%;
   }
 </style>
