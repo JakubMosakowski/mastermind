@@ -15,7 +15,6 @@
 // TODO Finished = correct or too many tries.
 // TODO field for enter another try:
 // TODO (by choosing color[colors should be very different eg. rgba/colors)
-// TODO deploy on netlify
 
 import swal from 'sweetalert';
 import Title from './components/Title.vue';

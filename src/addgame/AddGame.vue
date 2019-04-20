@@ -27,7 +27,7 @@ import CustomButton from './components/CustomButton.vue';
 import TextInput from './components/TextInput.vue';
 
 const path = 'https://mastermind-server-tsw.herokuapp.com/game/new';
-// TODO style that TextInput
+
 export default {
   name: 'AddGame',
   components: {
