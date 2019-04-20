@@ -5,16 +5,14 @@
 </template>
 
 <script>
+// TODO list of locally saved games with onClick to set as current.
 // TODO Create game site
-// TODO Add search for setting a new current game
+// TODO field for enter another try:
 // TODO show stats for game (how many times tried, how many left, past tries with scoring,
 // TODO save every try (in some map like gameid-array of tries) to local storage
-// TODO user can either search in input or by choosing game by id)
-// TODO add input for game name
+// TODO (by choosing color[colors should be very different eg. rgba/colors)
 // TODO Don't let user play more if game is finished
 // TODO Finished = correct or too many tries.
-// TODO field for enter another try:
-// TODO (by choosing color[colors should be very different eg. rgba/colors)
 
 import swal from 'sweetalert';
 import Title from './components/Title.vue';

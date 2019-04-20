@@ -37,11 +37,7 @@ export default {
     width: 100%;
   }
 
-  input:focus {
-    outline: none;
-  }
-
-  input:hover {
+  input:focus, input:hover {
     outline: none;
     -webkit-box-shadow: 0 5px 10px 0 white;
     -moz-box-shadow: 0 5px 10px 0 white;

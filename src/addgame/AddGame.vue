@@ -3,8 +3,7 @@
     <div v-if="!isLoading" id="inputsWrapper">
       <h2>Input game parameters:</h2>
 
-
-      <TextInput v-model="name" label="Enter name for game"
+      <TextInput v-model="gameName" label="Enter name for game"
                  placeholder="For example: Bob vs Uncle"/>
       <IntegerInput v-model="size" text="Size of a game:"
                     :is-error-visible="errors[0].isError"/>
@@ -14,7 +13,7 @@
 
       <CustomButton text="Create game!" @clicked="handleClick"/>
     </div>
-    <b-spinner v-if="isLoading" variant="primary" label="Spinning" id="spinner"></b-spinner>
+    <CustomSpinner :isVisible="isLoading"/>
   </div>
 </template>
 
@@ -23,14 +22,16 @@ import axios from 'axios';
 import swal from 'sweetalert';
 import Router from '../router';
 import IntegerInput from './components/IntegerInput.vue';
-import CustomButton from './components/CustomButton.vue';
-import TextInput from './components/TextInput.vue';
+import CustomButton from '../commons/components/CustomButton.vue';
+import TextInput from '../commons/components/TextInput.vue';
+import CustomSpinner from '../commons/components/CustomSpinner.vue';
 
 const path = 'https://mastermind-server-tsw.herokuapp.com/game/new';
 
 export default {
   name: 'AddGame',
   components: {
+    CustomSpinner,
     TextInput,
     CustomButton,
     IntegerInput,
@@ -57,7 +58,7 @@ export default {
       axios.post(path, post)
         .then((response) => {
           response.data.solved = false;
-          response.data.name = this.name;
+          response.data.name = this.gameName;
           localStorage.setItem(response.data.game, JSON.stringify(response.data));
           localStorage.currentGameId = response.data.game;
 
@@ -96,7 +97,7 @@ export default {
       size: 0,
       colors: 0,
       tries: 0,
-      name: '',
+      gameName: '',
       isLoading: false,
       SIZE_ERROR: 'size_error',
       COLORS_ERROR: 'colors_error',
@@ -122,15 +123,7 @@ export default {
     margin-top: 20px;
   }
 
-  #spinner {
-    position: fixed;
-    top: calc(50% - 45px);
-    left: calc(50% - 45px);
-    width: 90px;
-    height: 90px;
-  }
-
-  #integerInputWrapper{
+  #integerInputWrapper {
     margin-bottom: 10px;
   }
 
