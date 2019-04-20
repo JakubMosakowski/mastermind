@@ -40,7 +40,6 @@ export default {
     if (gameId && localStorage.getItem(gameId)) {
       this.game = JSON.parse(localStorage.getItem(gameId));
       this.isGameChosen = true;
-      console.log(this.game);
     } else {
       swal('You don\'t have any saved games.', 'Create one or search it by it\'s id!');
     }

@@ -66,9 +66,8 @@ export default {
             name: 'game',
           });
         })
-        .catch((e) => {
+        .catch(() => {
           swal('Something went wrong', 'Could not connect to a server');
-          console.log(e);
           this.isLoading = false;
         });
     },
