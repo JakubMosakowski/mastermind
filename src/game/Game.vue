@@ -1,14 +1,17 @@
 <template>
   <div v-if="isGameChosen" id="gameWrapper">
     <Title :game-id="game.game"/>
+    <p>How many times you have tried: {{game.steps-triesLeft}}</p>
+    <p>Tries left: {{triesLeft}}</p>
+    <p v-if="game.solved">Game is finished!</p>
+    <Move v-else :game="game"/>
   </div>
 </template>
 
 <script>
-// TODO list of locally saved games with onClick to set as current.
 // TODO Create game site
-// TODO field for enter another try:
 // TODO show stats for game (how many times tried, how many left, past tries with scoring,
+// TODO field for enter another try:
 // TODO save every try (in some map like gameid-array of tries) to local storage
 // TODO (by choosing color[colors should be very different eg. rgba/colors)
 // TODO Don't let user play more if game is finished
@@ -16,20 +19,25 @@
 
 import swal from 'sweetalert';
 import Title from './components/Title.vue';
+import Move from './components/Move.vue';
 
 export default {
   name: 'game',
-  components: { Title },
+  components: {
+    Move,
+    Title,
+  },
   data() {
     return {
       isGameChosen: false,
       game: {
-        game: 'GAME IS EMPTY',
+        game: '',
         size: 0,
         colors: 0,
         steps: 0,
         solved: false,
       },
+      triesLeft: 'UNKNOWN',
     };
   },
   mounted() {
@@ -44,8 +52,12 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
   #gameWrapper {
+    width: 100%;
+  }
 
+  #titleWrapper {
+    padding-bottom: 20px;
   }
 </style>

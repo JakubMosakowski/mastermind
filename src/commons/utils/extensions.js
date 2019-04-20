@@ -1,4 +1,6 @@
 // eslint-disable-next-line import/prefer-default-export
+const Rainbow = require('rainbowvis.js');
+
 export function getAllGamesFromStorage() {
   const values = [];
   const keys = Object.keys(localStorage);
@@ -16,4 +18,17 @@ export function getAllGamesFromStorage() {
   }
 
   return values;
+}
+
+export function getDifferentColors(number) {
+  const rainbow = new Rainbow();
+  const list = [];
+  rainbow.setNumberRange(1, number);
+  rainbow.setSpectrum('red', 'green', 'blue', 'black', 'white');
+
+  for (let i = 1; i <= number; i += 1) {
+    const hexColour = rainbow.colourAt(i);
+    list.push(`#${hexColour}`);
+  }
+  return list;
 }
