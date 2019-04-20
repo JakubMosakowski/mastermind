@@ -3,7 +3,13 @@
     <div v-if="!isLoading" id="contentWrapper">
       <TextInput v-model="gameId" label="Enter game id:"
                  placeholder="For example: ba84d490-6358-11e9-83a4-41cba1f52596"/>
-      <CustomButton text="SEARCH!" @clicked="handleClick"/>
+      <CustomButton text="SEARCH!" @clicked="handleSearchClick"/>
+
+      <ul id="example-1">
+        <li v-for="item in savedGames" :key="item.game">
+          <GameItem :game="item" @clicked="handleItemClicked"/>
+        </li>
+      </ul>
     </div>
     <CustomSpinner :isVisible="isLoading"/>
   </div>
@@ -15,6 +21,8 @@ import swal from 'sweetalert';
 import TextInput from '../commons/components/TextInput.vue';
 import CustomButton from '../commons/components/CustomButton.vue';
 import CustomSpinner from '../commons/components/CustomSpinner.vue';
+import * as utils from '../commons/utils/extensions';
+import GameItem from './components/GameItem.vue';
 
 const path = 'https://mastermind-server-tsw.herokuapp.com/game/status';
 const unknown = 'UNKNOWN';
@@ -22,6 +30,7 @@ const unknown = 'UNKNOWN';
 export default {
   name: 'Search',
   components: {
+    GameItem,
     CustomSpinner,
     CustomButton,
     TextInput,
@@ -30,10 +39,14 @@ export default {
     return {
       gameId: '',
       isLoading: false,
+      savedGames: [],
     };
   },
+  mounted() {
+    this.savedGames = utils.getAllGamesFromStorage();
+  },
   methods: {
-    handleClick() {
+    handleSearchClick() {
       const post = {
         game: this.gameId,
       };
@@ -52,15 +65,7 @@ export default {
             })
               .then((replaceCurrentGame) => {
                 if (replaceCurrentGame) {
-                  localStorage.currentGameId = gameId;
-
-                  if (!localStorage.getItem(gameId)) {
-                    response.data.name = '';
-                    response.data.size = unknown;
-                    response.data.colors = unknown;
-                    response.data.steps = unknown;
-                    localStorage.setItem(gameId, JSON.stringify(response.data));
-                  }
+                  this.setupGame(response.data);
                 }
               });
           } else {
@@ -80,6 +85,32 @@ export default {
       }
 
       return 'still going on!';
+    },
+    handleItemClicked(item) {
+      swal({
+        title: 'You have chosen a game!',
+        text: `This game is ${this.isFinishedText(item.solved)} Do you want to set it as your current game?`,
+        icon: 'success',
+        buttons: true,
+      })
+        .then((replaceCurrentGame) => {
+          if (replaceCurrentGame) {
+            this.setupGame(item);
+          }
+        });
+    },
+    setupGame(data) {
+      const passedData = data;
+      const gameId = data.game;
+      localStorage.currentGameId = gameId;
+
+      if (!localStorage.getItem(gameId)) {
+        passedData.name = '';
+        passedData.size = unknown;
+        passedData.colors = unknown;
+        passedData.steps = unknown;
+        localStorage.setItem(gameId, JSON.stringify(passedData));
+      }
     },
   },
 };
