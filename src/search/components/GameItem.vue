@@ -25,11 +25,13 @@ export default {
 </script>
 
 <style scoped>
-  p{
+  p {
     padding: 10px;
     border: solid 1px white;
     border-radius: 20px;
     text-align: center;
+    font-size: 0.9em;
+    width: 100%;
   }
 
   p:hover {
@@ -38,10 +40,6 @@ export default {
     -webkit-box-shadow: 0 14px 28px white, 0 10px 10px white;
     -moz-box-shadow: 0 14px 28px white, 0 10px 10px white;
     cursor: pointer;
-  }
-
-  #gameItemWrapper{
-    width: 100%;
   }
 
 </style>

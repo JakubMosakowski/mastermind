@@ -26,7 +26,7 @@ export default {
     border-radius: 25px;
   }
 
-  #colorWrapper:hover{
+  #colorWrapper:hover {
     box-shadow: 0 0 3pt 3pt white;
   }
 </style>

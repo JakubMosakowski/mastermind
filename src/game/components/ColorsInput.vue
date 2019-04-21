@@ -33,7 +33,8 @@ export default {
     min-height: 44px;
     justify-content: center;
   }
-  h5{
+
+  h5 {
     text-align: center;
   }
 </style>

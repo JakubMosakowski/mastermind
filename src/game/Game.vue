@@ -1,7 +1,8 @@
 <template>
   <div v-if="isGameChosen" id="gameWrapper">
     <div v-if="!isLoading" id="gameContent">
-      <Title :game-id="game.game"/>
+      <Title :game-id="game.game" :name="game.name"/>
+      <p>Size: {{game.size}}</p>
       <p v-if="game.solved">Game is finished!</p>
       <Move v-else :game="game" @clicked="handleMoveClicked"/>
       <p>How many times you have tried: {{game.steps-triesLeft}}</p>
@@ -34,6 +35,7 @@ export default {
     return {
       isGameChosen: false,
       game: {
+        name: '',
         game: '',
         size: 0,
         colors: 0,
@@ -68,5 +70,9 @@ export default {
 
   #moveWrapper {
     margin-bottom: 40px;
+  }
+
+  p {
+    text-align: center;
   }
 </style>

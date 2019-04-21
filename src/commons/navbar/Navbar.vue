@@ -1,15 +1,9 @@
 <template>
-  <ul id="navbarWrapper">
-    <li>
-      <router-link :to="{ name: 'home' }">MASTERMIND</router-link>
-    </li>
-    <li>
-      <router-link :to="{ name: 'game' }">CURRENT GAME</router-link>
-    </li>
-    <li>
-      <router-link :to="{ name: 'search' }">SEARCH GAME</router-link>
-    </li>
-  </ul>
+  <div id="navbarWrapper">
+    <router-link :to="{ name: 'home' }">MASTERMIND</router-link>
+    <router-link :to="{ name: 'game' }">CURRENT GAME</router-link>
+    <router-link :to="{ name: 'search' }">SEARCH GAME</router-link>
+  </div>
 </template>
 
 <script>
@@ -19,28 +13,34 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  @import "../../assets/colors";
 
   #navbarWrapper {
     display: flex;
     flex-direction: row;
     align-items: center;
-    background: $primary-color
+    background: $primary-color;
+    width: 100%;
   }
 
-  li {
+  a {
+    color: white;
     padding: 15px;
   }
 
-  ul {
-    list-style-type: none;
-  }
-
-  a{
-    color: white;
-  }
-
-  a:hover{
+  a:hover {
     color: $secondary-text-color;
+  }
+
+  @media screen and (max-width: 480px) {
+    a {
+      padding: 10px;
+      font-size: 0.7em;
+
+    }
+    #navbarWrapper {
+      justify-content: space-around;
+    }
   }
 
 </style>

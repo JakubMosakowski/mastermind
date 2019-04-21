@@ -119,7 +119,7 @@ export default {
     margin-bottom: 40px;
   }
 
-  #searchContentWrapper{
+  #searchContentWrapper {
     width: 100%;
   }
 </style>

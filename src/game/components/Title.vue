@@ -1,18 +1,21 @@
 <template>
   <div id="titleWrapper">
-    <h3>Your game number: </h3>
+    <h3 v-if="name !== ''">{{name}}</h3>
     <h6>{{ gameId }}</h6>
   </div>
 </template>
 
 <script>
-// TODO INSTEAD OF YOUR GAME NUMBER == GAME NAME OR DON'T DISPLAY
 export default {
   name: 'Title',
   props: {
     gameId: {
       type: String,
       required: true,
+    },
+    name: {
+      type: String,
+      default: '',
     },
   },
 };

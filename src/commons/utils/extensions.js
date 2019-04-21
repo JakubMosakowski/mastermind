@@ -23,6 +23,10 @@ export function getAllGamesFromStorage() {
 export function getDifferentColors(number) {
   const rainbow = new Rainbow();
   const list = [];
+  if (number < 2) {
+    list.push('#FF0000');
+    return list;
+  }
   rainbow.setNumberRange(1, number);
   rainbow.setSpectrum('red', 'green', 'blue', 'black', 'white');
 

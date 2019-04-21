@@ -127,7 +127,19 @@ export default {
     margin-bottom: 10px;
   }
 
-  h3 {
+  h2 {
+    text-align: center;
     margin-bottom: 20px;
+  }
+
+  @media screen and (max-width: 480px) {
+    h2 {
+      font-size: 1.5em;
+      margin: 0.83em 0;
+    }
+  }
+
+  #inputsWrapper {
+    width: 100%;
   }
 </style>
