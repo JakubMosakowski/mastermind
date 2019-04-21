@@ -3,7 +3,7 @@
     <div v-if="!isLoading" id="gameContent">
       <Title :game-id="game.game" :name="game.name"/>
       <p>Size: {{game.size}}</p>
-      <p v-if="game.solved">Game is finished!</p>
+      <p v-if="isGameFinished()">Game is finished! Your result: {{result()}}</p>
       <Move v-else :game="game" @clicked="handleMoveClicked"/>
       <p>How many times you have tried: {{game.steps-triesLeft}}</p>
       <p>Tries left: {{triesLeft}}</p>
@@ -13,13 +13,11 @@
 </template>
 
 <script>
-// TODO show stats for game (how many times tried, how many left, past tries with scoring)
-// TODO save every try (in some map like gameid-array of tries) to local storage
-// TODO handle next move (with info that you won or not)
-// TODO Don't let user play more if game is finished
-// TODO Finished = correct or too many tries.
-
 import swal from 'sweetalert';
+import axios from 'axios';
+import * as storage from '../commons/data/storage';
+import Router from '../router';
+
 import Title from './components/Title.vue';
 import Move from './components/Move.vue';
 import CustomSpinner from '../commons/components/CustomSpinner.vue';
@@ -48,16 +46,88 @@ export default {
   },
   methods: {
     handleMoveClicked(colors) {
-      console.log(colors);
+      const path = 'https://mastermind-server-tsw.herokuapp.com/game/move';
+
+      const post = {
+        game: this.game.game,
+        move: colors.flatMap(item => item.numeric + 1),
+      };
+      this.isLoading = true;
+
+      axios.post(path, post)
+        .then((response) => {
+          this.isLoading = false;
+
+          if (response.data.ERROR) {
+            this.gameLost();
+            return;
+          }
+
+          if (response.data.game) {
+            this.setupMoveResult(response.data.result);
+            return;
+          }
+
+          this.setupWon();
+        })
+        .catch(() => {
+          swal('Something went wrong', 'Could not connect to a server');
+          this.isLoading = false;
+        });
+    },
+    isGameFinished() {
+      return this.game.solved || this.triesLeft < 0;
+    },
+    gameLost() {
+      swal({
+        title: 'You lost!',
+        text: 'Maybe next time will be better?',
+        icon: 'error',
+      })
+        .then(() => {
+          storage.setObject(this.game.game, this.game);
+        });
+    },
+    setupMoveResult(result) {
+      console.log(result);
+      // TODO save every try (in some map like gameid-array of tries) to local storage
+    },
+    setupWon() {
+      swal({
+        title: 'You won',
+        text: 'Good job!',
+        icon: 'success',
+      })
+        .then(() => {
+          this.game.solved = true;
+          storage.setObject(this.game.game, this.game);
+        });
+    },
+    result() {
+      if (this.game.solved) {
+        return 'WON';
+      }
+      return 'LOST';
     },
   },
   mounted() {
-    const gameId = localStorage.currentGameId;
-    if (gameId && localStorage.getItem(gameId)) {
-      this.game = JSON.parse(localStorage.getItem(gameId));
+    // TODO search game and check how many tries have left
+    const gameId = storage.getPrimitive(storage.currentGameId);
+
+    if (gameId && storage.getObject(gameId)) {
+      this.game = storage.getObject(gameId);
       this.isGameChosen = true;
     } else {
-      swal('You don\'t have any saved games.', 'Create one or search it by it\'s id!');
+      swal({
+        title: 'No games selected.',
+        text: 'You didn\'t chose any game. You can create new game or find one by it\'s id.',
+        icon: 'info',
+      })
+        .then(() => {
+          Router.push({
+            name: 'home',
+          });
+        });
     }
   },
 };

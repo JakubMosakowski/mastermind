@@ -2,7 +2,7 @@
   <div id="moveWrapper">
     <ColorsInput :colors="getColors()" @clicked="handleColorRemoveClick"/>
     <ColorList :colors-length="game.colors" @clicked="handleColorClick"/>
-    <CustomButton text="Move" @clicked="$emit('clicked',colors)"/>
+    <CustomButton text="Move" @clicked="$emit('clicked',colors)" :is-enabled="isBtnEnabled()"/>
   </div>
 </template>
 
@@ -46,6 +46,9 @@ export default {
     },
     getColors() {
       return this.colors.flatMap(item => item.color);
+    },
+    isBtnEnabled() {
+      return this.game.size === this.colors.length;
     },
   },
 };

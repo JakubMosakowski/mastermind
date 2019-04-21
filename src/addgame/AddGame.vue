@@ -25,6 +25,7 @@ import IntegerInput from './components/IntegerInput.vue';
 import CustomButton from '../commons/components/CustomButton.vue';
 import TextInput from '../commons/components/TextInput.vue';
 import CustomSpinner from '../commons/components/CustomSpinner.vue';
+import * as storage from '../commons/data/storage';
 
 const path = 'https://mastermind-server-tsw.herokuapp.com/game/new';
 
@@ -59,8 +60,8 @@ export default {
         .then((response) => {
           response.data.solved = false;
           response.data.name = this.gameName;
-          localStorage.setItem(response.data.game, JSON.stringify(response.data));
-          localStorage.currentGameId = response.data.game;
+          storage.setObject(response.data.game, response.data);
+          storage.setPrimitive(storage.currentGameId, response.data.game);
 
           this.isLoading = false;
           Router.push({
