@@ -1,6 +1,7 @@
 <template>
   <div id="colorListWrapper">
-      <ColorItem v-for="color in colors" v-bind:key="color" :color="color"/>
+      <ColorItem v-for="(color, index) in colors" v-bind:key="color"
+                 :index="index" :color="color" @clicked="$emit('clicked',index,color)"/>
   </div>
 </template>
 

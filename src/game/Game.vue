@@ -1,29 +1,32 @@
 <template>
   <div v-if="isGameChosen" id="gameWrapper">
-    <Title :game-id="game.game"/>
-    <p>How many times you have tried: {{game.steps-triesLeft}}</p>
-    <p>Tries left: {{triesLeft}}</p>
-    <p v-if="game.solved">Game is finished!</p>
-    <Move v-else :game="game"/>
+    <div v-if="!isLoading" id="gameContent">
+      <Title :game-id="game.game"/>
+      <p v-if="game.solved">Game is finished!</p>
+      <Move v-else :game="game" @clicked="handleMoveClicked"/>
+      <p>How many times you have tried: {{game.steps-triesLeft}}</p>
+      <p>Tries left: {{triesLeft}}</p>
+    </div>
+    <CustomSpinner :is-visible="isLoading"/>
   </div>
 </template>
 
 <script>
-// TODO Create game site
-// TODO show stats for game (how many times tried, how many left, past tries with scoring,
-// TODO field for enter another try:
+// TODO show stats for game (how many times tried, how many left, past tries with scoring)
 // TODO save every try (in some map like gameid-array of tries) to local storage
-// TODO (by choosing color[colors should be very different eg. rgba/colors)
+// TODO handle next move (with info that you won or not)
 // TODO Don't let user play more if game is finished
 // TODO Finished = correct or too many tries.
 
 import swal from 'sweetalert';
 import Title from './components/Title.vue';
 import Move from './components/Move.vue';
+import CustomSpinner from '../commons/components/CustomSpinner.vue';
 
 export default {
   name: 'game',
   components: {
+    CustomSpinner,
     Move,
     Title,
   },
@@ -38,7 +41,13 @@ export default {
         solved: false,
       },
       triesLeft: 'UNKNOWN',
+      isLoading: false,
     };
+  },
+  methods: {
+    handleMoveClicked(colors) {
+      console.log(colors);
+    },
   },
   mounted() {
     const gameId = localStorage.currentGameId;
@@ -53,11 +62,11 @@ export default {
 </script>
 
 <style lang="scss">
-  #gameWrapper {
+  #gameContent {
     width: 100%;
   }
 
-  #titleWrapper {
-    padding-bottom: 20px;
+  #moveWrapper {
+    margin-bottom: 40px;
   }
 </style>

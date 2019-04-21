@@ -1,16 +1,17 @@
 <template>
-  <div id="colorWrapper" :style="{background: color}"></div>
+  <div id="colorWrapper" :style="{background: color}" @click="$emit('clicked',index,color)"></div>
 </template>
 
 <script>
-// TODO pass index to color
-// TODO make colors clickable
-// TODO after click add color to input
 export default {
   name: 'ColorItem',
   props: {
     color: {
       type: String,
+      required: true,
+    },
+    index: {
+      type: Number,
       required: true,
     },
   },
@@ -23,5 +24,9 @@ export default {
     height: 30px;
     margin: 5px;
     border-radius: 25px;
+  }
+
+  #colorWrapper:hover{
+    box-shadow: 0 0 3pt 3pt white;
   }
 </style>
