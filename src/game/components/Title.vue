@@ -1,7 +1,7 @@
 <template>
   <div id="titleWrapper">
     <h3 v-if="name !== ''">{{name}}</h3>
-    <h6>{{ gameId }}</h6>
+    <h6>ID: {{ gameId }}</h6>
   </div>
 </template>
 

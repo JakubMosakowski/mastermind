@@ -5,7 +5,7 @@
       <p>Size: {{game.size}}</p>
       <p v-if="isGameFinished()">Game is finished! Your result: {{result()}}</p>
       <Move v-else :game="game" @clicked="handleMoveClicked"/>
-      <p>How many times you have tried: {{howManyTried()}}</p>
+      <p>How many times you have tried: {{triedCount}}</p>
       <p>Tries left: {{stepsLeft}}</p>
     </div>
     <CustomSpinner :is-visible="isLoading"/>
@@ -42,6 +42,7 @@ export default {
       },
       stepsLeft: 'UNKNOWN',
       isLoading: false,
+      triedCount: 0,
     };
   },
   methods: {
@@ -58,17 +59,12 @@ export default {
         .then((response) => {
           this.isLoading = false;
 
-          if (response.data.ERROR) {
-            this.gameLost();
-            return;
-          }
-
           if (response.data.game) {
-            this.setupMoveResult(response.data.result);
+            this.setupMoveResult(response.data);
             return;
           }
 
-          this.setupWon();
+          this.setupWon(response.data.tried);
         })
         .catch(() => {
           swal('Something went wrong', 'Could not connect to a server');
@@ -76,31 +72,14 @@ export default {
         });
     },
     isGameFinished() {
-      return this.game.solved || this.stepsLeft < 0;
+      return this.game.solved || this.stepsLeft < 1;
     },
-    howManyTried() {
-      const result = this.game.steps - this.stepsLeft;
-      // eslint-disable-next-line no-restricted-globals
-      if (isNaN(result)) {
-        return 'UNKNOWN';
-      }
-      return result;
-    },
-    gameLost() {
-      swal({
-        title: 'You lost!',
-        text: 'Maybe next time will be better?',
-        icon: 'error',
-      })
-        .then(() => {
-          storage.setObject(this.game.game, this.game);
-        });
-    },
-    setupMoveResult(result) {
-      console.log(result);
+    setupMoveResult(data) {
+      this.triedCount = data.tried;
+      this.stepsLeft = data.stepsLeft;
       // TODO save every try (in some map like gameid-array of tries) to local storage
     },
-    setupWon() {
+    setupWon(tried) {
       swal({
         title: 'You won',
         text: 'Good job!',
@@ -108,6 +87,7 @@ export default {
       })
         .then(() => {
           this.game.solved = true;
+          this.triedCount = tried;
           storage.setObject(this.game.game, this.game);
         });
     },
@@ -133,6 +113,7 @@ export default {
 
       axios.post(path, post).then((response) => {
         this.stepsLeft = response.data.stepsLeft;
+        this.triedCount = response.data.tried;
       }).finally(() => {
         this.isLoading = false;
       });
