@@ -5,8 +5,8 @@
       <p>Size: {{game.size}}</p>
       <p v-if="isGameFinished()">Game is finished! Your result: {{result()}}</p>
       <Move v-else :game="game" @clicked="handleMoveClicked"/>
-      <p>How many times you have tried: {{game.steps-triesLeft}}</p>
-      <p>Tries left: {{triesLeft}}</p>
+      <p>How many times you have tried: {{howManyTried()}}</p>
+      <p>Tries left: {{stepsLeft}}</p>
     </div>
     <CustomSpinner :is-visible="isLoading"/>
   </div>
@@ -40,7 +40,7 @@ export default {
         steps: 0,
         solved: false,
       },
-      triesLeft: 'UNKNOWN',
+      stepsLeft: 'UNKNOWN',
       isLoading: false,
     };
   },
@@ -76,7 +76,15 @@ export default {
         });
     },
     isGameFinished() {
-      return this.game.solved || this.triesLeft < 0;
+      return this.game.solved || this.stepsLeft < 0;
+    },
+    howManyTried() {
+      const result = this.game.steps - this.stepsLeft;
+      // eslint-disable-next-line no-restricted-globals
+      if (isNaN(result)) {
+        return 'UNKNOWN';
+      }
+      return result;
     },
     gameLost() {
       swal({
@@ -111,12 +119,23 @@ export default {
     },
   },
   mounted() {
-    // TODO search game and check how many tries have left
+    this.isLoading = true;
     const gameId = storage.getPrimitive(storage.currentGameId);
 
     if (gameId && storage.getObject(gameId)) {
       this.game = storage.getObject(gameId);
       this.isGameChosen = true;
+
+      const path = 'https://mastermind-server-tsw.herokuapp.com/game/status';
+      const post = {
+        game: this.game.game,
+      };
+
+      axios.post(path, post).then((response) => {
+        this.stepsLeft = response.data.stepsLeft;
+      }).finally(() => {
+        this.isLoading = false;
+      });
     } else {
       swal({
         title: 'No games selected.',
