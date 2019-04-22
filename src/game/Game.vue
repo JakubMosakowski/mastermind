@@ -7,6 +7,7 @@
       <Move v-else :game="game" @clicked="handleMoveClicked"/>
       <p>How many times you have tried: {{triedCount}}</p>
       <p>Tries left: {{stepsLeft}}</p>
+      <TriesList :results="results" :colors="game.colors"/>
     </div>
     <CustomSpinner :is-visible="isLoading"/>
   </div>
@@ -21,10 +22,12 @@ import Router from '../router';
 import Title from './components/Title.vue';
 import Move from './components/Move.vue';
 import CustomSpinner from '../commons/components/CustomSpinner.vue';
+import TriesList from './components/TriesList.vue';
 
 export default {
   name: 'game',
   components: {
+    TriesList,
     CustomSpinner,
     Move,
     Title,
@@ -43,6 +46,7 @@ export default {
       stepsLeft: 'UNKNOWN',
       isLoading: false,
       triedCount: 0,
+      results: [],
     };
   },
   methods: {
@@ -101,6 +105,19 @@ export default {
   mounted() {
     this.isLoading = true;
     const gameId = storage.getPrimitive(storage.currentGameId);
+    // TODO remove that mocks!
+    this.results = [
+      {
+        black: 25,
+        white: 8,
+        try: ['#FF0011', '#FF0011', '#FF0011', '#155911', '#559911'],
+      },
+      {
+        black: 0,
+        white: 2,
+        try: ['#559911', '#155911', '#FF0011', '#155911', '#559911'],
+      },
+    ];
 
     if (gameId && storage.getObject(gameId)) {
       this.game = storage.getObject(gameId);
@@ -111,12 +128,14 @@ export default {
         game: this.game.game,
       };
 
-      axios.post(path, post).then((response) => {
-        this.stepsLeft = response.data.stepsLeft;
-        this.triedCount = response.data.tried;
-      }).finally(() => {
-        this.isLoading = false;
-      });
+      axios.post(path, post)
+        .then((response) => {
+          this.stepsLeft = response.data.stepsLeft;
+          this.triedCount = response.data.tried;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
     } else {
       swal({
         title: 'No games selected.',
@@ -139,7 +158,7 @@ export default {
   }
 
   #moveWrapper {
-    margin-bottom: 40px;
+    margin-bottom: 20px;
   }
 
   p {
