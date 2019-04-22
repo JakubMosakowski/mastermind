@@ -2,7 +2,7 @@
   <div id="searchWrapper">
     <div v-if="!isLoading" id="searchContentWrapper">
       <TextInput v-model="gameId" label="Enter game id:"
-                 placeholder="For example: ba84d490-6358-11e9-83a4-41cba1f52596"/>
+                 placeholder="For example: ba84d490-6358-11e9-83a4-41cba1f52596" max-length="36"/>
       <CustomButton text="SEARCH!" @clicked="handleSearchClick"/>
 
       <GameList :games="savedGames" @clicked="handleItemClicked"/>
