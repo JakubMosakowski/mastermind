@@ -12,11 +12,11 @@
     "axios": "^0.18.0",
     "bootstrap": "^4.3.1",
     "bootstrap-vue": "^2.0.0-rc.18",
+    "rainbowvis.js": "^1.0.1",
     "sweetalert": "^2.1.2",
     "vue": "^2.6.10",
     "vue-router": "^3.0.1",
-    "vue-visible": "^1.0.2",
-    "webpack": "^4.30.0"
+    "vue-visible": "^1.0.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-eslint": "^3.5.0",
@@ -34,6 +34,7 @@
     "sass": "^1.18.0",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
-    "vue-template-compiler": "^2.5.21"
+    "vue-template-compiler": "^2.5.21",
+    "webpack": "^4.30.0"
   }
 }

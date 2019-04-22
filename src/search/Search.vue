@@ -19,6 +19,7 @@ import CustomButton from '../commons/components/CustomButton.vue';
 import CustomSpinner from '../commons/components/CustomSpinner.vue';
 import * as utils from '../commons/utils/extensions';
 import GameList from './components/GameList.vue';
+import * as storage from '../commons/data/storage';
 
 const path = 'https://mastermind-server-tsw.herokuapp.com/game/status';
 const unknown = 'UNKNOWN';
@@ -98,14 +99,14 @@ export default {
     setupGame(data) {
       const passedData = data;
       const gameId = data.game;
-      localStorage.currentGameId = gameId;
+      storage.setPrimitive(storage.currentGameId, gameId);
 
-      if (!localStorage.getItem(gameId)) {
+      if (!storage.getObject(gameId)) {
         passedData.name = '';
         passedData.size = unknown;
         passedData.colors = unknown;
         passedData.steps = unknown;
-        localStorage.setItem(gameId, JSON.stringify(passedData));
+        storage.setObject(gameId, passedData);
       }
     },
   },
@@ -119,7 +120,7 @@ export default {
     margin-bottom: 40px;
   }
 
-  #searchContentWrapper{
+  #searchContentWrapper {
     width: 100%;
   }
 </style>

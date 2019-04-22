@@ -1,5 +1,6 @@
 <template>
-  <button id="customButton" class="btn btn-primary" @click="$emit('clicked')"> {{text}}</button>
+  <button id="customButton" :disabled="!isEnabled"
+          class="btn btn-primary" @click="$emit('clicked')"> {{text}}</button>
 </template>
 
 <script>
@@ -8,6 +9,11 @@ export default {
   props: {
     text: {
       type: String,
+      required: true,
+    },
+    isEnabled: {
+      type: Boolean,
+      default: true,
     },
   },
 };

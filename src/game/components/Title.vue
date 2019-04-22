@@ -1,7 +1,7 @@
 <template>
   <div id="titleWrapper">
-    <h3 >Your game number: </h3>
-    <h6>{{ gameId }}</h6>
+    <h3 v-if="name !== ''">{{name}}</h3>
+    <h6>ID: {{ gameId }}</h6>
   </div>
 </template>
 
@@ -13,12 +13,16 @@ export default {
       type: String,
       required: true,
     },
+    name: {
+      type: String,
+      default: '',
+    },
   },
 };
 </script>
 
 <style scoped>
-  *{
+  * {
     text-align: center;
   }
 </style>

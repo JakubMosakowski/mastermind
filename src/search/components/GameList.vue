@@ -1,11 +1,8 @@
 <template>
   <div id="gameListWrapper">
     <h5>Saved games: </h5>
-    <ul>
-      <li v-for="item in games" :key="item.game">
-        <GameItem :game="item" @clicked="$emit('clicked', item)"/>
-      </li>
-    </ul>
+    <GameItem v-for="item in games" :key="item.game" :game="item"
+              @clicked="$emit('clicked', item)"/>
   </div>
 
 </template>
@@ -29,14 +26,6 @@ export default {
   h5 {
     text-align: center;
     margin-bottom: 10px;
-  }
-
-  li{
-    list-style-type: none;
-  }
-
-  ul{
-    padding-left: 0;
   }
 
 </style>
