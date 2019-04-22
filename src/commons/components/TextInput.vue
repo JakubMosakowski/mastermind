@@ -2,7 +2,8 @@
   <label v-if="label !== ''">
     {{ label }}
     <input type="text" :placeholder="placeholder"
-           :value="value" @input="$emit('input', $event.target.value)"/>
+           :value="value" @input="$emit('input', $event.target.value)"
+           :maxlength="maxLength"/>
   </label>
 </template>
 
@@ -18,6 +19,10 @@ export default {
     label: {
       type: String,
       default: '',
+    },
+    maxLength: {
+      type: Number,
+      default: 15,
     },
     value: String,
   },
