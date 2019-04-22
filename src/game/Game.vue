@@ -7,7 +7,7 @@
       <Move v-else :game="game" @clicked="handleMoveClicked"/>
       <p>How many times you have tried: {{triedCount}}</p>
       <p>Tries left: {{stepsLeft}}</p>
-      <TriesList :results="results" :colors="game.colors"/>
+      <TriesList :results="results"/>
     </div>
     <CustomSpinner :is-visible="isLoading"/>
   </div>
@@ -64,7 +64,7 @@ export default {
           this.isLoading = false;
 
           if (response.data.game) {
-            this.setupMoveResult(response.data);
+            this.setupMoveResult(response.data, colors);
             return;
           }
 
@@ -78,10 +78,11 @@ export default {
     isGameFinished() {
       return this.game.solved || this.stepsLeft < 1;
     },
-    setupMoveResult(data) {
+    setupMoveResult(data, colors) {
       this.triedCount = data.tried;
       this.stepsLeft = data.stepsLeft;
-      // TODO save every try (in some map like gameid-array of tries) to local storage
+
+      this.saveMoveToStorage(data.result, colors);
     },
     setupWon(tried) {
       swal({
@@ -101,23 +102,19 @@ export default {
       }
       return 'LOST';
     },
+    saveMoveToStorage(result, colors) {
+      const newResult = {
+        black: result.black,
+        white: result.white,
+        try: colors,
+      };
+      this.results.push(newResult);
+      storage.setObject(storage.getGameResultKey(this.game.game), this.results);
+    },
   },
   mounted() {
     this.isLoading = true;
     const gameId = storage.getPrimitive(storage.currentGameId);
-    // TODO remove that mocks!
-    this.results = [
-      {
-        black: 25,
-        white: 8,
-        try: ['#FF0011', '#FF0011', '#FF0011', '#155911', '#559911'],
-      },
-      {
-        black: 0,
-        white: 2,
-        try: ['#559911', '#155911', '#FF0011', '#155911', '#559911'],
-      },
-    ];
 
     if (gameId && storage.getObject(gameId)) {
       this.game = storage.getObject(gameId);
@@ -130,6 +127,7 @@ export default {
 
       axios.post(path, post)
         .then((response) => {
+          this.results = storage.getObject(storage.getGameResultKey(gameId)) || [];
           this.stepsLeft = response.data.stepsLeft;
           this.triedCount = response.data.tried;
         })

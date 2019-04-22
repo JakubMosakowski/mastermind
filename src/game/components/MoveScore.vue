@@ -7,7 +7,7 @@
       <ColorItem v-for="(color,index) in getListOfColor(result.black,'#000000')"
                  :color="color" :key="-1*(index+1)" :is-small="true" :is-disabled="true"/>
     </div>
-    <Try :colors="result.try"/>
+    <Try :colors="result.try.flatMap((item)=>item.color)"/>
   </div>
 </template>
 

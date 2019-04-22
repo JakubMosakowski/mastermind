@@ -20,10 +20,6 @@ export default {
     MoveScore,
   },
   props: {
-    colors: {
-      type: Number,
-      required: true,
-    },
     results: {
       type: Array,
       required: true,

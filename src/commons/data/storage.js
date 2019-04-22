@@ -19,3 +19,4 @@ export function getPrimitive(key) {
 }
 
 export const currentGameId = 'currentGameId';
+export function getGameResultKey(id) { return `${id}-results`; }
