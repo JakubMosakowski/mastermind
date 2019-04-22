@@ -68,7 +68,7 @@ export default {
             return;
           }
 
-          this.setupWon(response.data.tried);
+          this.setupWon(colors, response.data.tried);
         })
         .catch(() => {
           swal('Something went wrong', 'Could not connect to a server');
@@ -84,17 +84,22 @@ export default {
 
       this.saveMoveToStorage(data.result, colors);
     },
-    setupWon(tried) {
+    setupWon(colors, tried) {
+      this.game.solved = true;
+      this.triedCount = tried;
+      storage.setObject(this.game.game, this.game);
+
+      const result = {
+        black: this.game.size,
+        white: 0,
+      };
+      this.saveMoveToStorage(result, colors);
+
       swal({
         title: 'You won',
         text: 'Good job!',
         icon: 'success',
-      })
-        .then(() => {
-          this.game.solved = true;
-          this.triedCount = tried;
-          storage.setObject(this.game.game, this.game);
-        });
+      }).then();
     },
     result() {
       if (this.game.solved) {
